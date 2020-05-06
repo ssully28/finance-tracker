@@ -1,4 +1,8 @@
 class Stock < ApplicationRecord
+  has_many :user_stocks
+  has_many :user, through: :user_stocks
+
+  validates :name, :ticker, presence: true
 
   # Use 'self.' to make it a class method
   def self.new_lookup(ticker_symbol)
@@ -19,5 +23,9 @@ class Stock < ApplicationRecord
       return nil
     end
 
+  end
+
+  def self.check_db(ticker_symbol)
+    where(ticker: ticker_symbol).first
   end
 end
