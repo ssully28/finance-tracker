@@ -12,13 +12,15 @@ class User < ApplicationRecord
   end
 
   def stock_already_tracked?(ticker_symbol)
+    ticker_symbol.upcase!
     stock = Stock.check_db(ticker_symbol)
     return false unless stock
 
-    stocks.where(id: stock.id).exits?
+    stocks.where(id: stock.id).exists?
   end
 
   def can_track_stock?(ticker_symbol)
+    ticker_symbol.upcase!
     under_stock_limit? && !stock_already_tracked?(ticker_symbol)
   end
 end

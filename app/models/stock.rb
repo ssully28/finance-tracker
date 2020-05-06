@@ -15,7 +15,7 @@ class Stock < ApplicationRecord
 
     begin
       new(
-        ticker: ticker_symbol, 
+        ticker: ticker_symbol.upcase, 
         name: client.company(ticker_symbol).company_name, 
         last_price: client.price(ticker_symbol)
         )
@@ -26,6 +26,7 @@ class Stock < ApplicationRecord
   end
 
   def self.check_db(ticker_symbol)
+    ticker_symbol.upcase!
     where(ticker: ticker_symbol).first
   end
 end
